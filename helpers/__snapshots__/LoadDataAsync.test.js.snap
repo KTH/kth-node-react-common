@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Helper component <LoadDataAsync/> [-> snapshot 1] - in mode "spinner" when checkFunc() returns false - initially shows loading spinner 1`] = `
+<div
+  class="LoadDataAsync mode-spinner"
+>
+  <div
+    class="Loading"
+  >
+    <div
+      class="spin-dual-ring"
+    />
+  </div>
+</div>
+`;
+
+exports[`Helper component <LoadDataAsync/> [-> snapshot 2] - in mode "spinner" when checkFunc() returns true - initially shows children 1`] = `
+<div
+  class="LoadDataAsync mode-spinner"
+>
+  <div
+    class="test-container"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`Helper component <LoadDataAsync/> [-> snapshot 3] - in mode "expand" when checkFunc() returns false - initially hides content 1`] = `
+<div
+  class="LoadDataAsync mode-expand CollapsableDiv open-false"
+>
+  <div
+    class="CollapsableDiv-wrapper"
+    style="display: none;"
+  >
+    <div
+      class="test-container"
+    >
+      Test
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Helper component <LoadDataAsync/> [-> snapshot 4] - in mode "expand" when checkFunc() returns true - initially shows children 1`] = `
+<div
+  class="LoadDataAsync mode-expand CollapsableDiv open-true"
+>
+  <div
+    class="CollapsableDiv-wrapper"
+  >
+    <div
+      class="test-container"
+    >
+      Test
+    </div>
+  </div>
+</div>
+`;

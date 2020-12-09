@@ -1,0 +1,38 @@
+$mobile-breakpoint: 667px;
+$desktop-breakpoint: 667.01px;
+
+$small-screen-breakpoint: 991.99px;
+$big-screen-breakpoint: 992px;
+
+@mixin media-mobile {
+  @media screen and (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-desktop {
+  @media screen and (min-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-small-screen {
+  @media screen and (max-width: $small-screen-breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-big-screen {
+  @media screen and (min-width: $big-screen-breakpoint) {
+    @content;
+  }
+}
+
+@mixin no-text-select {
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}

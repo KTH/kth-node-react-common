@@ -1,0 +1,148 @@
+@use './mixins';
+@use '../../node_modules/kth-style/public/sass/variables/colors';
+
+h1 > .Badges,
+h2 > .Badges,
+h3 > .Badges,
+h4 > .Badges {
+  & > *:first-child {
+    margin-left: 20px;
+  }
+  & > *:not(:first-child) {
+    margin-left: 10px;
+  }
+}
+
+.ButtonWithProcess {
+  .spinner {
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > div {
+      width: 18px;
+      height: 18px;
+
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+      animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+
+    .bounce1 {
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+
+    .bounce2 {
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+
+    @-webkit-keyframes sk-bouncedelay {
+      0%,
+      80%,
+      100% {
+        -webkit-transform: scale(0);
+      }
+      40% {
+        -webkit-transform: scale(1);
+      }
+    }
+
+    @keyframes sk-bouncedelay {
+      0%,
+      80%,
+      100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+      }
+      40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+  }
+
+  &.btn-primary .spinner > div {
+    background-color: white;
+  }
+  &:not(.btn-primary) .spinner > div {
+    background-color: rgb(192, 192, 192);
+  }
+}
+
+.ClickableDiv {
+  @include mixins.no-text-select;
+
+  &:focus:hover {
+    outline: none;
+  }
+
+  &.disabled-true {
+    color: colors.$grey;
+  }
+}
+
+.LoadDataAsync {
+  .LoadDataAsync-Error {
+    .alert {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: stretch;
+
+      div {
+        flex: 1 0 auto;
+      }
+    }
+  }
+}
+
+.Loading {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spin-dual-ring {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+
+    &:after {
+      content: ' ';
+      display: block;
+      width: 46px;
+      height: 46px;
+      margin: 1px;
+      border-radius: 50%;
+      border: 5px solid #006cb7;
+      border-color: #006cb7 transparent #006cb7 transparent;
+      animation: spin-dual-ring 1.2s linear infinite;
+    }
+  }
+
+  @keyframes spin-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.Tabs {
+  .tab-bar-container .nav.nav-tabs {
+    .nav-link.disabled {
+      color: #6c757d;
+      background-color: transparent;
+    }
+
+    .nav-link.disabled:not(.active) {
+      border-color: transparent;
+    }
+  }
+}

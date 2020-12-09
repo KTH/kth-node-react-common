@@ -1,0 +1,151 @@
+@use '../../node_modules/kth-style/public/sass/variables/colors';
+
+.CheckboxGroup {
+  legend {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+}
+
+.Text {
+  display: flex;
+  flex-flow: column nowrap;
+  .form-control {
+    flex: 1 0 auto;
+  }
+}
+
+.ImageUpload {
+  .ImageUpload-buttons {
+    margin-top: 5px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    button + button {
+      margin-left: 20px;
+    }
+
+    input[type='file'] {
+      display: none;
+    }
+  }
+
+  .ImageUpload-maxsize {
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+.Info {
+  .form-control {
+    border: 1px solid transparent;
+    background: none;
+    height: auto;
+  }
+
+  &.mode-markdown .Markdown {
+    & > *:first-child {
+      margin-top: 0;
+    }
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.mode-image .form-control {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+.List {
+  & > *:not(:first-child) {
+    margin-top: 5px;
+  }
+
+  .List-item {
+    border-radius: 5px;
+    background-color: #eee;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+
+    .List-item-rearrange {
+      padding: 10px;
+      border-radius: 5px 0 0 5px;
+      background-color: colors.$blue;
+
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 25px;
+        width: 25px;
+      }
+    }
+
+    .List-item-norearrange,
+    .List-item-rearrange-target {
+      border-radius: 5px 0 0 5px;
+      background-color: colors.$blue;
+      width: 45px;
+    }
+
+    .List-item-controls {
+      flex: 1 0 auto;
+      padding: 10px 20px;
+    }
+
+    .List-item-remove {
+      padding: 10px 20px;
+      border-radius: 0 5px 5px 0;
+      background-color: colors.$grey;
+
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 20px;
+        width: 20px;
+      }
+    }
+    .List-item-noremove {
+      width: 60px;
+    }
+  }
+
+  .List-extend {
+    button {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+
+      .List-extend-icon {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 16px;
+
+        transform: translate(-5px, -2px);
+        margin-right: 16px;
+      }
+    }
+  }
+}
