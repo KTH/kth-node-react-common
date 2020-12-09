@@ -42,6 +42,7 @@
     "babel-eslint": "^10.1.0",
     "deep-object-diff": "^1.1.0",
     "eslint": "^7.15.0",
+    "husky": "^4.3.5",
     "jest": "^26.6.3",
     "jest-extended": "^0.11.5",
     "prettier": "^2.2.1",
@@ -73,5 +74,10 @@
       "jest-extended"
     ],
     "verbose": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test"
+    }
   }
 }
