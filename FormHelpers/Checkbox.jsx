@@ -1,16 +1,12 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
 
-const { Badges } = require('../helpers')
+const { Badges } = require('../Helpers')
 const { isObject } = require('../utils')
 
 const { getCurrentInputData, setCurrentInputData } = require('./internals')
-
-module.exports = Checkbox
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -77,3 +73,5 @@ function Checkbox(props) {
 
 Checkbox.propTypes = propTypes
 Checkbox.defaultProps = defaultProps
+
+module.exports = Checkbox

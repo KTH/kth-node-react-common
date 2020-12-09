@@ -1,19 +1,41 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
-const { isNoObject } = require("../utils");
+const { isNoObject } = require('../utils')
 
-const createDefaultStore = require("./defaultStore");
+const createDefaultStore = require('./defaultStore')
 
-const { createStoreManager, getStoreManager } = require("./manager");
+const { createStoreManager, getStoreManager } = require('./manager')
 
-module.exports = {
-  announceStore,
-  createStore,
-  createMultiStore,
-  getStoreState,
-};
+/**
+ * @param {object} inputBag
+ * @param {string} inputBag.storeId
+ * @param {object} [inputBag.defaultStoreData]
+ *
+ * @returns {object}
+ */
+function _prepareStoreDataWithInitCallback({ storeId, defaultStoreData = null }) {
+  const defaultStoreMustStillBeAnnounced = storeId === 'default' && getStoreManager('default') == null
+  if (defaultStoreMustStillBeAnnounced) {
+    createStoreManager('default', createDefaultStore)
+  }
+
+  const manager = getStoreManager(storeId)
+  if (manager == null) {
+    throw new Error(`unknown store "${storeId}", remember to announce it first`)
+  }
+
+  const initCallback = manager.getInitCallback()
+  if (typeof initCallback !== 'function') {
+    throw new Error(`missing init-callback (store "${storeId}")`)
+  }
+
+  const storeData = initCallback(defaultStoreData)
+  if (isNoObject(storeData)) {
+    throw new Error(`invalid init-callback - expected to return an object`)
+  }
+
+  return storeData
+}
 
 /**
  * Prepares the later usage of the MobX-store with the given ID
@@ -25,8 +47,8 @@ module.exports = {
  * @param {() => object} initCallback
  */
 function announceStore(storeId, initCallback) {
-  if (typeof initCallback === "function") {
-    createStoreManager(storeId, initCallback);
+  if (typeof initCallback === 'function') {
+    createStoreManager(storeId, initCallback)
   }
 }
 
@@ -40,17 +62,17 @@ function announceStore(storeId, initCallback) {
  * @returns {object}
  *    raw single store data w/o MobX
  */
-function createStore(storeId = "default", defaultStore = null) {
+function createStore(storeId = 'default', defaultStore = null) {
   try {
     const storeData = _prepareStoreDataWithInitCallback({
       storeId,
       defaultStoreData: defaultStore,
-    });
+    })
 
-    return storeData;
+    return storeData
   } catch (error) {
-    error.message = `createStore() failed - ${error.message}`;
-    throw error;
+    error.message = `createStore() failed - ${error.message}`
+    throw error
   }
 }
 
@@ -69,63 +91,26 @@ function createStore(storeId = "default", defaultStore = null) {
 function createMultiStore(...storeIdList) {
   try {
     const defaultStoreData = _prepareStoreDataWithInitCallback({
-      storeId: "default",
-    });
+      storeId: 'default',
+    })
 
     const result = {
       multiStore: true,
       default: defaultStoreData,
-    };
+    }
 
-    storeIdList.forEach((storeId) => {
+    storeIdList.forEach(storeId => {
       result[storeId] = _prepareStoreDataWithInitCallback({
         storeId,
         defaultStoreData,
-      });
-    });
+      })
+    })
 
-    return result;
+    return result
   } catch (error) {
-    error.message = `createMultiStore() failed - ${error.message}`;
-    throw error;
+    error.message = `createMultiStore() failed - ${error.message}`
+    throw error
   }
-}
-
-/**
- * @param {object} inputBag
- * @param {string} inputBag.storeId
- * @param {object} [inputBag.defaultStoreData]
- *
- * @returns {object}
- */
-function _prepareStoreDataWithInitCallback({
-  storeId,
-  defaultStoreData = null,
-}) {
-  const defaultStoreMustStillBeAnnounced =
-    storeId === "default" && getStoreManager("default") == null;
-  if (defaultStoreMustStillBeAnnounced) {
-    createStoreManager("default", createDefaultStore);
-  }
-
-  const manager = getStoreManager(storeId);
-  if (manager == null) {
-    throw new Error(
-      `unknown store "${storeId}", remember to announce it first`
-    );
-  }
-
-  const initCallback = manager.getInitCallback();
-  if (typeof initCallback !== "function") {
-    throw new Error(`missing init-callback (store "${storeId}")`);
-  }
-
-  const storeData = initCallback(defaultStoreData);
-  if (isNoObject(storeData)) {
-    throw new Error(`invalid init-callback - expected to return an object`);
-  }
-
-  return storeData;
 }
 
 /**
@@ -136,12 +121,19 @@ function _prepareStoreDataWithInitCallback({
  *    "pending" if store announced but not initialized; or
  *    "active" if store announced and initialized
  */
-function getStoreState(storeId = "default") {
-  const manager = getStoreManager(storeId);
+function getStoreState(storeId = 'default') {
+  const manager = getStoreManager(storeId)
   if (manager == null) {
-    return null;
+    return null
   }
 
-  const isActive = manager.checkIfIsActive();
-  return isActive ? "active" : "pending";
+  const isActive = manager.checkIfIsActive()
+  return isActive ? 'active' : 'pending'
+}
+
+module.exports = {
+  announceStore,
+  createStore,
+  createMultiStore,
+  getStoreState,
 }

@@ -1,10 +1,6 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const { findInObject } = require('../utils')
-
-module.exports = { getCurrentInputData, setCurrentInputData }
 
 /**
  * @param {object} inputBag
@@ -24,6 +20,38 @@ function getCurrentInputData({ dataBag, dataPath }) {
   }
 
   return result
+}
+
+/**
+ * @param {*} inputA
+ * @param {*} inputB
+ * @returns {boolean}
+ */
+function _hasSameValue(inputA, inputB) {
+  if (inputA == null && inputB == null) {
+    return true
+  }
+  if (inputA == null || inputB == null) {
+    return false
+  }
+  if (typeof inputA !== typeof inputB) {
+    return false
+  }
+  if (typeof inputA !== 'object') {
+    return inputA === inputB
+  }
+
+  const exactlyOneOfBothIsAnArray = Array.isArray(inputA) ? Array.isArray(inputB) === false : Array.isArray(inputB)
+  if (exactlyOneOfBothIsAnArray) {
+    return false
+  }
+
+  const keysA = Object.keys(inputA)
+  const keysB = Object.keys(inputB)
+  if (keysA.length !== keysB.length) {
+    return false
+  }
+  return keysA.every(key => _hasSameValue(inputA[key], inputB[key]))
 }
 
 /**
@@ -59,34 +87,4 @@ function setCurrentInputData({ dataBag, dataPath, newValue }) {
   }
 }
 
-/**
- * @param {*} inputA
- * @param {*} inputB
- * @returns {boolean}
- */
-function _hasSameValue(inputA, inputB) {
-  if (inputA == null && inputB == null) {
-    return true
-  }
-  if (inputA == null || inputB == null) {
-    return false
-  }
-  if (typeof inputA !== typeof inputB) {
-    return false
-  }
-  if (typeof inputA !== 'object') {
-    return inputA === inputB
-  }
-
-  const exactlyOneOfBothIsAnArray = Array.isArray(inputA) ? Array.isArray(inputB) === false : Array.isArray(inputB)
-  if (exactlyOneOfBothIsAnArray) {
-    return false
-  }
-
-  const keysA = Object.keys(inputA)
-  const keysB = Object.keys(inputB)
-  if (keysA.length !== keysB.length) {
-    return false
-  }
-  return keysA.every(key => _hasSameValue(inputA[key], inputB[key]))
-}
+module.exports = { getCurrentInputData, setCurrentInputData }

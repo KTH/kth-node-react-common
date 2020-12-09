@@ -1,13 +1,9 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
 
 const MarkdownIt = require('markdown-it')
-
-module.exports = Markdown
 
 const propTypes = {
   markup: PropTypes.string,
@@ -50,3 +46,5 @@ function Markdown(props) {
 
 Markdown.propTypes = propTypes
 Markdown.defaultProps = defaultProps
+
+module.exports = Markdown

@@ -1,13 +1,9 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
 
 const { ensureObject, prepareAsyncSafeState } = require('../utils')
-
-module.exports = ButtonWithProcess
 
 const propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
@@ -130,3 +126,5 @@ function ButtonWithProcess(props) {
 
 ButtonWithProcess.propTypes = propTypes
 ButtonWithProcess.defaultProps = defaultProps
+
+module.exports = ButtonWithProcess

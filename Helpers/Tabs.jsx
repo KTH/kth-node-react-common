@@ -1,18 +1,13 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
+const PropTypes = require('prop-types')
 
 const { useState } = React
-const PropTypes = require('prop-types')
 
 const { ensureObject, isNoObject } = require('../utils')
 
-module.exports = Tabs
-Tabs.Tab = Tab
-
-const propTypes = {
+const propTypesTabs = {
   id: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   defaultActiveKey: PropTypes.string,
@@ -20,12 +15,58 @@ const propTypes = {
   className: PropTypes.string,
   ariaLabel: PropTypes.string,
 }
-
-const defaultProps = {
+const defaultPropsTabs = {
   defaultActiveKey: null,
   disabled: false,
   className: '',
   ariaLabel: null,
+}
+
+const propTypesTab = {
+  id: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
+}
+const defaultPropsTab = {
+  id: null,
+  children: null,
+}
+
+function getErrorOnInvalidTab(item, prefix) {
+  const { props } = ensureObject(item)
+  if (isNoObject(props)) {
+    return `${prefix} must be a <Tab/>`.trim()
+  }
+
+  const { id, title, children } = ensureObject(props)
+  if (typeof title !== 'string' || title === '') {
+    return `${prefix} must be a <Tab/> with a valid title`.trim()
+  }
+  if (id != null && (typeof id !== 'string' || id === '')) {
+    return `${prefix} must be a <Tab/> with no ID / a valid ID`.trim()
+  }
+  if (
+    children != null &&
+    (typeof children !== 'object' || (Array.isArray(children) && children.some(child => typeof child !== 'object')))
+  ) {
+    return `${prefix} must be a <Tab/> with no child / valid children`.trim()
+  }
+
+  return null
+}
+
+function ensureTabsChildrenAreValid(children) {
+  if (!Array.isArray(children) || children.length === 0) {
+    throw new Error('<Tabs/> failed - no children given')
+  }
+
+  const errors = children
+    .map((item, index) => getErrorOnInvalidTab(item, `child ${index + 1}`))
+    .filter(message => message != null)
+
+  if (errors.length > 0) {
+    throw new Error('<Tabs/> failed - ' + errors.join(', '))
+  }
 }
 
 /**
@@ -137,9 +178,6 @@ function Tabs(props) {
   )
 }
 
-Tabs.propTypes = propTypes
-Tabs.defaultProps = defaultProps
-
 /**
  * `<Tab/>`
  * Abstract component which is used as direct child of `<Tabs/>`
@@ -157,49 +195,12 @@ function Tab(props) {
   return null
 }
 
-Tab.propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
-}
-Tab.defaultProps = {
-  id: null,
-  children: null,
-}
+Tabs.propTypes = propTypesTabs
+Tabs.defaultProps = defaultPropsTabs
 
-function ensureTabsChildrenAreValid(children) {
-  if (!Array.isArray(children) || children.length === 0) {
-    throw new Error('<Tabs/> failed - no children given')
-  }
+Tab.propTypes = propTypesTab
+Tab.defaultProps = defaultPropsTab
 
-  const errors = children
-    .map((item, index) => getErrorOnInvalidTab(item, `child ${index + 1}`))
-    .filter(message => message != null)
+Tabs.Tab = Tab
 
-  if (errors.length > 0) {
-    throw new Error('<Tabs/> failed - ' + errors.join(', '))
-  }
-}
-
-function getErrorOnInvalidTab(item, prefix) {
-  const { props } = ensureObject(item)
-  if (isNoObject(props)) {
-    return `${prefix} must be a <Tab/>`.trim()
-  }
-
-  const { id, title, children } = ensureObject(props)
-  if (typeof title !== 'string' || title === '') {
-    return `${prefix} must be a <Tab/> with a valid title`.trim()
-  }
-  if (id != null && (typeof id !== 'string' || id === '')) {
-    return `${prefix} must be a <Tab/> with no ID / a valid ID`.trim()
-  }
-  if (
-    children != null &&
-    (typeof children !== 'object' || (Array.isArray(children) && children.some(child => typeof child !== 'object')))
-  ) {
-    return `${prefix} must be a <Tab/> with no child / valid children`.trim()
-  }
-
-  return null
-}
+module.exports = Tabs

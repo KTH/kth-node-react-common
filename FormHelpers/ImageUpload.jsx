@@ -1,17 +1,14 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
-const { useEffect, useRef } = React
 const PropTypes = require('prop-types')
 
-const { Badges } = require('../helpers')
+const { useEffect, useRef } = React
+
+const { Badges } = require('../Helpers')
 const { ensureObject, isObject } = require('../utils')
 
 const { getCurrentInputData, setCurrentInputData } = require('./internals')
-
-module.exports = ImageUpload
 
 const propTypes = {
   id: PropTypes.string,
@@ -36,6 +33,36 @@ const defaultProps = {
   currValue: '',
   setCurrValue: null,
   maxFileSize: null,
+}
+
+/**
+ * https://www.isummation.com/blog/convert-arraybuffer-to-base64-string-and-vice-versa/
+ *
+ * @param {ArrayBuffer} buffer
+ * @returns {string}
+ */
+// eslint-disable-next-line no-unused-vars
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer)
+  let binary = ''
+  for (let index = 0; index < bytes.byteLength; index++) {
+    binary += String.fromCharCode(bytes[index])
+  }
+  return window.btoa(binary)
+}
+
+/**
+ * @param {string} base64
+ * @returns {ArrayBuffer}
+ */
+// eslint-disable-next-line no-unused-vars
+function base64ToArrayBuffer(base64) {
+  const binaryString = window.atob(base64)
+  const bytes = new Uint8Array(binaryString.length)
+  for (let index = 0; index < binaryString.length; index++) {
+    bytes[index] = binaryString.charCodeAt(index)
+  }
+  return bytes.buffer
 }
 
 /**
@@ -172,32 +199,4 @@ function ImageUpload(props) {
 ImageUpload.propTypes = propTypes
 ImageUpload.defaultProps = defaultProps
 
-/**
- * https://www.isummation.com/blog/convert-arraybuffer-to-base64-string-and-vice-versa/
- *
- * @param {ArrayBuffer} buffer
- * @returns {string}
- */
-// eslint-disable-next-line no-unused-vars
-function arrayBufferToBase64(buffer) {
-  const bytes = new Uint8Array(buffer)
-  let binary = ''
-  for (let index = 0; index < bytes.byteLength; index++) {
-    binary += String.fromCharCode(bytes[index])
-  }
-  return window.btoa(binary)
-}
-
-/**
- * @param {string} base64
- * @returns {ArrayBuffer}
- */
-// eslint-disable-next-line no-unused-vars
-function base64ToArrayBuffer(base64) {
-  const binaryString = window.atob(base64)
-  const bytes = new Uint8Array(binaryString.length)
-  for (let index = 0; index < binaryString.length; index++) {
-    bytes[index] = binaryString.charCodeAt(index)
-  }
-  return bytes.buffer
-}
+module.exports = ImageUpload

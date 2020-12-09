@@ -1,12 +1,10 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 
 const { render } = require('@testing-library/react')
 
-const { ConsoleUtils } = require('../../../../test-utils')
+const { ConsoleUtils } = require('../test-utils')
 
 const LoadDataAsync = require('./LoadDataAsync')
 

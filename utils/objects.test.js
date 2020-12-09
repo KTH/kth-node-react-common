@@ -212,11 +212,13 @@ function _runTestsAboutEnsureObject() {
           },
         }
       `)
-      Object.keys(foundProperties.objects).every(key => {
-        expect(foundProperties.objects[key]).toBeObject()
+      Object.keys(foundProperties.objects).forEach(key => {
+        if (!Array.isArray(foundProperties.objects[key])) {
+          expect(foundProperties.objects[key]).toBeObject()
+        }
         expect(foundProperties.objects[key]).not.toEqual({})
       })
-      Object.keys(foundProperties.nonObjects).every(key => {
+      Object.keys(foundProperties.nonObjects).forEach(key => {
         expect(foundProperties.nonObjects[key]).toEqual({})
       })
     })
@@ -251,7 +253,7 @@ function _runTestsAboutEnsureObject() {
           "username": Object {},
         }
       `)
-      Object.keys(results).every(key => {
+      Object.keys(results).forEach(key => {
         expect(results[key]).toEqual({})
       })
     })
@@ -273,7 +275,7 @@ function _runTestsAboutEnsureObject() {
           "defaultLanguage.": Object {},
         }
       `)
-      Object.keys(results).every(key => {
+      Object.keys(results).forEach(key => {
         expect(results[key]).toEqual({})
       })
     })

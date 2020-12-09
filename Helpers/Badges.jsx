@@ -1,11 +1,7 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
-
-module.exports = Badges
 
 const propTypes = {
   content: PropTypes.string,
@@ -48,3 +44,5 @@ function Badges(props) {
 
 Badges.propTypes = propTypes
 Badges.defaultProps = defaultProps
+
+module.exports = Badges

@@ -1,11 +1,7 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
-
-module.exports = Loading
 
 const propTypes = {
   className: PropTypes.string,
@@ -34,3 +30,5 @@ function Loading(props) {
 
 Loading.propTypes = propTypes
 Loading.defaultProps = defaultProps
+
+module.exports = Loading

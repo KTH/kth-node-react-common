@@ -1,12 +1,8 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const clientAxios = require('axios').default
 
 const { isObject, isNoObject, ensureObject } = require('./objects')
-
-module.exports = { getServerApiUri, queryServerApiAsync }
 
 const KNOWN_HTTP_METHODS = ['get', 'post', 'put', 'delete']
 
@@ -83,3 +79,5 @@ async function queryServerApiAsync({ method, uri, params, body, serverHost, serv
 
   return data
 }
+
+module.exports = { getServerApiUri, queryServerApiAsync }

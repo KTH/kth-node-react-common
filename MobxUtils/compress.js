@@ -1,20 +1,13 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
-const { toJS } = require("mobx");
+const { toJS } = require('mobx')
 
-const { isObject, isNoObject, ensureObject } = require("../utils");
+const { isObject, isNoObject, ensureObject } = require('../utils')
 
-const { createStore } = require("./store");
+const { createStore } = require('./store')
 
-module.exports = {
-  compressStoreDataIntoJavascriptCode,
-  uncompressStoreDataFromDocument,
-};
-
-const SINGLE_STORE_KEY = "__compressedSingleStore__";
-const MULTI_STORE_KEY = "__compressedMultiStore__";
+const SINGLE_STORE_KEY = '__compressedSingleStore__'
+const MULTI_STORE_KEY = '__compressedMultiStore__'
 
 /**
  * During server-side rendering put the result of this function
@@ -26,40 +19,40 @@ const MULTI_STORE_KEY = "__compressedMultiStore__";
  */
 function compressStoreDataIntoJavascriptCode(storeData) {
   if (isNoObject(storeData)) {
-    return "";
+    return ''
   }
 
-  const isMultiStore = storeData.multiStore === true;
+  const isMultiStore = storeData.multiStore === true
 
-  const globalKey = isMultiStore ? MULTI_STORE_KEY : SINGLE_STORE_KEY;
+  const globalKey = isMultiStore ? MULTI_STORE_KEY : SINGLE_STORE_KEY
 
-  let data;
+  let data
   if (isMultiStore) {
     const storeIdList = Object.keys(storeData)
-      .filter((key) => key !== "multiStore")
-      .filter((id) => isObject(storeData[id]));
+      .filter(key => key !== 'multiStore')
+      .filter(id => isObject(storeData[id]))
     if (storeIdList.length === 0) {
-      return "";
+      return ''
     }
 
-    data = {};
-    storeIdList.forEach((id) => {
-      data[id] = { ...storeData[id] };
+    data = {}
+    storeIdList.forEach(id => {
+      data[id] = { ...storeData[id] }
       if (data[id]._defaultStore) {
-        delete data[id]._defaultStore;
+        delete data[id]._defaultStore
       }
-    });
+    })
   } else {
-    data = { ...storeData };
+    data = { ...storeData }
     if (data._defaultStore) {
-      delete data._defaultStore;
+      delete data._defaultStore
     }
   }
 
-  const compressedData = encodeURIComponent(JSON.stringify(toJS(data)));
+  const compressedData = encodeURIComponent(JSON.stringify(toJS(data)))
 
-  const output = `window.${globalKey} = "${compressedData}";`;
-  return output;
+  const output = `window.${globalKey} = "${compressedData}";`
+  return output
 }
 
 /**
@@ -73,74 +66,68 @@ function compressStoreDataIntoJavascriptCode(storeData) {
  * @return {object} e.g. with shape { multiStore: true, default: <store data>, ...}
  */
 function uncompressStoreDataFromDocument() {
-  const defaultStore = createStore("default", null);
+  const defaultStore = createStore('default', null)
 
   const multiStoreData = {
     multiStore: true,
     default: defaultStore,
-  };
+  }
 
-  const isClientSide = typeof window !== "undefined";
+  const isClientSide = typeof window !== 'undefined'
   if (!isClientSide) {
     // eslint-disable-next-line no-console
-    console.error(
-      "uncompressStoreDataFromDocument(): Expected to be run on client side"
-    );
-    return defaultStore;
+    console.error('uncompressStoreDataFromDocument(): Expected to be run on client side')
+    return defaultStore
   }
 
-  const {
-    [SINGLE_STORE_KEY]: singleStoreInput,
-    [MULTI_STORE_KEY]: multiStoreInput,
-  } = ensureObject(window);
-  const hasCompressedSingleStore =
-    typeof singleStoreInput === "string" && singleStoreInput !== "";
-  const hasCompressedMultiStore =
-    typeof multiStoreInput === "string" && multiStoreInput !== "";
+  const { [SINGLE_STORE_KEY]: singleStoreInput, [MULTI_STORE_KEY]: multiStoreInput } = ensureObject(window)
+  const hasCompressedSingleStore = typeof singleStoreInput === 'string' && singleStoreInput !== ''
+  const hasCompressedMultiStore = typeof multiStoreInput === 'string' && multiStoreInput !== ''
 
   if (!hasCompressedSingleStore && !hasCompressedMultiStore) {
-    return defaultStore;
+    return defaultStore
   }
 
-  let uncompressedData = null;
+  let uncompressedData = null
   try {
-    const compressedData = hasCompressedMultiStore
-      ? multiStoreInput
-      : singleStoreInput;
-    uncompressedData = JSON.parse(decodeURIComponent(compressedData));
+    const compressedData = hasCompressedMultiStore ? multiStoreInput : singleStoreInput
+    uncompressedData = JSON.parse(decodeURIComponent(compressedData))
     // eslint-disable-next-line no-empty
   } catch (error) {}
 
-  const isValidData = isObject(uncompressedData);
+  const isValidData = isObject(uncompressedData)
   if (!isValidData) {
     // eslint-disable-next-line no-console
-    console.error("uncompressStoreDataFromDocument(): Invalid store data");
-    return defaultStore;
+    console.error('uncompressStoreDataFromDocument(): Invalid store data')
+    return defaultStore
   }
 
   if (hasCompressedMultiStore) {
-    const multiStoreIdList = Object.keys(uncompressedData).filter((id) =>
-      isObject(uncompressedData[id])
-    );
+    const multiStoreIdList = Object.keys(uncompressedData).filter(id => isObject(uncompressedData[id]))
 
-    multiStoreIdList.forEach((id) => {
-      const input = uncompressedData[id];
-      if (id !== "default") {
-        multiStoreData[id] = createStore(id, defaultStore);
+    multiStoreIdList.forEach(id => {
+      const input = uncompressedData[id]
+      if (id !== 'default') {
+        multiStoreData[id] = createStore(id, defaultStore)
       }
-      const inputKeys = Object.keys(input);
-      inputKeys.forEach((key) => {
-        multiStoreData[id][key] = input[key];
-      });
-    });
+      const inputKeys = Object.keys(input)
+      inputKeys.forEach(key => {
+        multiStoreData[id][key] = input[key]
+      })
+    })
 
-    return multiStoreData;
+    return multiStoreData
   }
 
-  const dataKeys = Object.keys(uncompressedData);
-  dataKeys.forEach((key) => {
-    defaultStore[key] = uncompressedData[key];
-  });
+  const dataKeys = Object.keys(uncompressedData)
+  dataKeys.forEach(key => {
+    defaultStore[key] = uncompressedData[key]
+  })
 
-  return defaultStore;
+  return defaultStore
+}
+
+module.exports = {
+  compressStoreDataIntoJavascriptCode,
+  uncompressStoreDataFromDocument,
 }

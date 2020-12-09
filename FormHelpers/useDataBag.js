@@ -1,53 +1,49 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
-const { useState } = require("react");
+const { useState } = require('react')
 
-const { isNoObject, setInObject } = require("../utils");
-
-module.exports = useDataBag;
+const { isNoObject, setInObject } = require('../utils')
 
 class DataBag {
   constructor(initialData) {
-    this._initialData = initialData == null ? {} : initialData;
+    this._initialData = initialData == null ? {} : initialData
     if (isNoObject(this._initialData)) {
-      throw new Error('useDataBag() failed - invalid argument "initialData"');
+      throw new Error('useDataBag() failed - invalid argument "initialData"')
     }
 
-    const [a, setA] = useState({});
-    this._allDataChanges = a;
-    this._setAllDataChanges = setA;
+    const [a, setA] = useState({})
+    this._allDataChanges = a
+    this._setAllDataChanges = setA
   }
 
   setInitialData(input) {
     if (isNoObject(input)) {
-      throw new Error("dataBag.setInitialData() failed - invalid input");
+      throw new Error('dataBag.setInitialData() failed - invalid input')
     }
-    this._initialData = input;
-    return this;
+    this._initialData = input
+    return this
   }
 
   getCurrentData() {
-    const result = { ...this._initialData };
-    Object.keys(this._allDataChanges).forEach((path) => {
+    const result = { ...this._initialData }
+    Object.keys(this._allDataChanges).forEach(path => {
       setInObject({
         object: result,
         path,
         newValue: this._allDataChanges[path].newValue,
         copySubObjectsOnPath: true,
-      });
-    });
-    return result;
+      })
+    })
+    return result
   }
 
   hasSomeChanges() {
-    return Object.keys(this._allDataChanges).length > 0;
+    return Object.keys(this._allDataChanges).length > 0
   }
 
   discardAllChanges() {
-    this._setAllDataChanges({});
-    return this;
+    this._setAllDataChanges({})
+    return this
   }
 }
 
@@ -69,6 +65,8 @@ class DataBag {
  *    - a public method `discardAllChanges()`
  */
 function useDataBag(initialData) {
-  const result = new DataBag(initialData);
-  return result;
+  const result = new DataBag(initialData)
+  return result
 }
+
+module.exports = useDataBag

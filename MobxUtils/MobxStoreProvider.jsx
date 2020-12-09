@@ -1,14 +1,10 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
-const React = require("react");
+const React = require('react')
 
-const { isObject, isNoObject } = require("../utils");
+const { isObject, isNoObject } = require('../utils')
 
-const { getStoreManager } = require("./manager");
-
-module.exports = MobxStoreProvider;
+const { getStoreManager } = require('./manager')
 
 /**
  * React-component which prepares one or more MobX-stores
@@ -31,43 +27,39 @@ module.exports = MobxStoreProvider;
  * @returns {object}
  */
 function MobxStoreProvider(props) {
-  const { storeData, singleStoreId, children } = props;
+  const { storeData, singleStoreId, children } = props
 
   if (storeData == null) {
-    return children;
+    return children
   }
   if (isNoObject(storeData)) {
-    throw new Error('<MobxStoreProvider/> failed - invalid prop "storeData"');
+    throw new Error('<MobxStoreProvider/> failed - invalid prop "storeData"')
   }
 
   const fakedMultiStore =
-    typeof singleStoreId === "string" && singleStoreId !== ""
+    typeof singleStoreId === 'string' && singleStoreId !== ''
       ? { multiStore: true, [singleStoreId]: storeData }
-      : { multiStore: true, default: storeData };
-  const multiStoreData =
-    storeData.multiStore === true ? storeData : fakedMultiStore;
+      : { multiStore: true, default: storeData }
+  const multiStoreData = storeData.multiStore === true ? storeData : fakedMultiStore
 
   const storeIdList = Object.keys(multiStoreData)
-    .filter((key) => key !== "multiStore")
-    .filter((id) => isObject(multiStoreData[id]));
+    .filter(key => key !== 'multiStore')
+    .filter(id => isObject(multiStoreData[id]))
 
   if (storeIdList.length === 0) {
-    throw new Error("<MobxStoreProvider/> failed - missing store data");
+    throw new Error('<MobxStoreProvider/> failed - missing store data')
   }
 
-  let result = children;
+  let result = children
 
-  storeIdList.forEach((id) => {
-    const manager = getStoreManager(id);
-    manager.initWithNewData(multiStoreData[id]);
-    const {
-      Provider: ReactContextProvider,
-      value: mobxStore,
-    } = manager.getProviderComponentAndValue();
-    result = (
-      <ReactContextProvider value={mobxStore}>{result}</ReactContextProvider>
-    );
-  });
+  storeIdList.forEach(id => {
+    const manager = getStoreManager(id)
+    manager.initWithNewData(multiStoreData[id])
+    const { Provider: ReactContextProvider, value: mobxStore } = manager.getProviderComponentAndValue()
+    result = <ReactContextProvider value={mobxStore}>{result}</ReactContextProvider>
+  })
 
-  return result;
+  return result
 }
+
+module.exports = MobxStoreProvider

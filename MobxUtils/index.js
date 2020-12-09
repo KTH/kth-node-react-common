@@ -1,5 +1,3 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const MobxStoreProvider = require('./MobxStoreProvider')

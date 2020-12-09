@@ -1,5 +1,3 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
@@ -9,8 +7,6 @@ const { prepareAsyncSafeState } = require('../utils')
 
 const Loading = require('./Loading')
 const CollapsableDiv = require('./CollapsableDiv')
-
-module.exports = LoadDataAsync
 
 const propTypes = {
   className: PropTypes.string,
@@ -33,56 +29,6 @@ const defaultProps = {
   showErrorMode: 'full',
   errorMessage: 'Ett fel uppstod - det gick inte att hämta data till sidan från servern.',
 }
-
-/**
- * `<LoadDataAsync />`
- *
- * @param {object} props
- * @param {string} [props.className]
- * @param {string} [props.headline]
- * @param {string} [props.headlineTag]
- * @param {() => boolean} props.checkFunc
- * @param {() => Promise} props.queryFuncAsync
- * @param {string} [props.mode]
- * @param {JSX.Element|JSX.Element[]} [props.children]
- * @param {string} [props.showErrorMode]
- * @param {string} [props.errorMessage]
- *
- * @returns {JSX.Element}
- */
-function LoadDataAsync(props) {
-  const { checkFunc, queryFuncAsync, children } = props
-  const { useAsyncSafeState } = prepareAsyncSafeState()
-
-  if (typeof checkFunc !== 'function' || typeof queryFuncAsync !== 'function') {
-    return <>{children}</>
-  }
-
-  const [currState, setCurrState] = useAsyncSafeState({
-    isLoading: false,
-    lastError: null,
-  })
-
-  const { isLoading, lastError } = currState
-
-  if (lastError != null) {
-    return _showError({ props, currState, setCurrState })
-  }
-
-  if (isLoading || checkFunc()) {
-    return _finalizeOutput({ props, currState })
-  }
-
-  queryFuncAsync()
-    .then(() => setCurrState({ ...currState, isLoading: false }))
-    .catch(error => setCurrState({ ...currState, isLoading: false, lastError: error }))
-
-  setCurrState({ ...currState, isLoading: true })
-  return _finalizeOutput({ props, currState: { ...currState, isLoading: true } })
-}
-
-LoadDataAsync.propTypes = propTypes
-LoadDataAsync.defaultProps = defaultProps
 
 /**
  * @param {object} inputBag
@@ -175,3 +121,55 @@ function _showError({ props, currState, setCurrState }) {
 
   return _finalizeOutput({ props, currState, element: <div className="LoadDataAsync-Error mode-hide" /> })
 }
+
+/**
+ * `<LoadDataAsync />`
+ *
+ * @param {object} props
+ * @param {string} [props.className]
+ * @param {string} [props.headline]
+ * @param {string} [props.headlineTag]
+ * @param {() => boolean} props.checkFunc
+ * @param {() => Promise} props.queryFuncAsync
+ * @param {string} [props.mode]
+ * @param {JSX.Element|JSX.Element[]} [props.children]
+ * @param {string} [props.showErrorMode]
+ * @param {string} [props.errorMessage]
+ *
+ * @returns {JSX.Element}
+ */
+function LoadDataAsync(props) {
+  const { checkFunc, queryFuncAsync, children } = props
+  const { useAsyncSafeState } = prepareAsyncSafeState()
+
+  if (typeof checkFunc !== 'function' || typeof queryFuncAsync !== 'function') {
+    return <>{children}</>
+  }
+
+  const [currState, setCurrState] = useAsyncSafeState({
+    isLoading: false,
+    lastError: null,
+  })
+
+  const { isLoading, lastError } = currState
+
+  if (lastError != null) {
+    return _showError({ props, currState, setCurrState })
+  }
+
+  if (isLoading || checkFunc()) {
+    return _finalizeOutput({ props, currState })
+  }
+
+  queryFuncAsync()
+    .then(() => setCurrState({ ...currState, isLoading: false }))
+    .catch(error => setCurrState({ ...currState, isLoading: false, lastError: error }))
+
+  setCurrState({ ...currState, isLoading: true })
+  return _finalizeOutput({ props, currState: { ...currState, isLoading: true } })
+}
+
+LoadDataAsync.propTypes = propTypes
+LoadDataAsync.defaultProps = defaultProps
+
+module.exports = LoadDataAsync

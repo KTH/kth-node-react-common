@@ -1,5 +1,3 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
@@ -7,13 +5,11 @@ const PropTypes = require('prop-types')
 
 const { ensureObject } = require('../utils')
 
-module.exports = ClickableDiv
-
 const propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   ariaLabel: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   disabled: PropTypes.bool,
 }
 
@@ -21,7 +17,39 @@ const defaultProps = {
   onClick: null,
   className: '',
   ariaLabel: '',
+  children: null,
   disabled: false,
+}
+
+function _turnIntoClickActionLosingFocus(callback) {
+  if (typeof callback !== 'function') {
+    return null
+  }
+
+  return function handleClick(event) {
+    const { type, currentTarget } = ensureObject(event)
+    if (type === 'click') {
+      if (currentTarget instanceof HTMLElement) {
+        currentTarget.blur()
+      }
+      event.preventDefault()
+      callback()
+    }
+  }
+}
+
+function _turnIntoKeyDownAction(callback) {
+  if (typeof callback !== 'function') {
+    return null
+  }
+
+  return function handleKeyDown(event) {
+    const { type, key } = ensureObject(event)
+    if (type === 'keydown' && [' ', 'Spacebar', 'Enter'].includes(key)) {
+      event.preventDefault()
+      callback()
+    }
+  }
 }
 
 /**
@@ -64,33 +92,4 @@ function ClickableDiv(props) {
 ClickableDiv.propTypes = propTypes
 ClickableDiv.defaultProps = defaultProps
 
-function _turnIntoClickActionLosingFocus(callback) {
-  if (typeof callback !== 'function') {
-    return null
-  }
-
-  return function handleClick(event) {
-    const { type, currentTarget } = ensureObject(event)
-    if (type === 'click') {
-      if (currentTarget instanceof HTMLElement) {
-        currentTarget.blur()
-      }
-      event.preventDefault()
-      callback()
-    }
-  }
-}
-
-function _turnIntoKeyDownAction(callback) {
-  if (typeof callback !== 'function') {
-    return null
-  }
-
-  return function handleKeyDown(event) {
-    const { type, key } = ensureObject(event)
-    if (type === 'keydown' && [' ', 'Spacebar', 'Enter'].includes(key)) {
-      event.preventDefault()
-      callback()
-    }
-  }
-}
+module.exports = ClickableDiv

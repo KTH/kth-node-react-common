@@ -1,16 +1,12 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
 
-const { Badges } = require('../helpers')
+const { Badges } = require('../Helpers')
 const { isObject } = require('../utils')
 
 const { getCurrentInputData, setCurrentInputData } = require('./internals')
-
-module.exports = Select
 
 const propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -160,3 +156,5 @@ function Select(props) {
 
 Select.propTypes = propTypes
 Select.defaultProps = defaultProps
+
+module.exports = Select

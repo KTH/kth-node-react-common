@@ -1,16 +1,12 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
 
-const { Badges, Markdown } = require('../helpers')
+const { Badges, Markdown } = require('../Helpers')
 const { ensureObject, isObject } = require('../utils')
 
 const { getCurrentInputData } = require('./internals')
-
-module.exports = Info
 
 const propTypes = {
   label: PropTypes.string,
@@ -102,3 +98,5 @@ function Info(props) {
 
 Info.propTypes = propTypes
 Info.defaultProps = defaultProps
+
+module.exports = Info

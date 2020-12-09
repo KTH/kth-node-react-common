@@ -1,12 +1,8 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const Global = {
   isTestEnvironment: false,
 }
-
-module.exports = { activateTestEnvironment, isTestEnvironment }
 
 /**
  *
@@ -21,3 +17,5 @@ function activateTestEnvironment() {
 function isTestEnvironment() {
   return Global.isTestEnvironment
 }
+
+module.exports = { activateTestEnvironment, isTestEnvironment }

@@ -1,16 +1,4 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
-
-module.exports = {
-  isObject,
-  isNoObject,
-  isArrayOfObjects,
-  ensureObject,
-  expectObject,
-  findInObject,
-  setInObject,
-}
 
 /**
  * @param {*} input
@@ -254,4 +242,14 @@ function setInObject({ object, path, newValue, copySubObjectsOnPath = false }) {
     error.message = `setInObject() failed - ${error.message}`
     throw error
   }
+}
+
+module.exports = {
+  isObject,
+  isNoObject,
+  isArrayOfObjects,
+  ensureObject,
+  expectObject,
+  findInObject,
+  setInObject,
 }

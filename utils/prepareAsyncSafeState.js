@@ -1,10 +1,6 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const { useEffect, useState } = require('react')
-
-module.exports = prepareAsyncSafeState
 
 /**
  * `useAsyncSafeState()`
@@ -43,3 +39,5 @@ function prepareAsyncSafeState() {
 
   return { useAsyncSafeState }
 }
+
+module.exports = prepareAsyncSafeState

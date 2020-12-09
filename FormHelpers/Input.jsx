@@ -1,40 +1,84 @@
-/* eslint no-use-before-define: ["error", "nofunc"] */
-
 // @ts-check
 
 const React = require('react')
 const PropTypes = require('prop-types')
 
-const { Badges } = require('../helpers')
+const { Badges, ClickableDiv } = require('../Helpers')
 const { isObject } = require('../utils')
 
 const { getCurrentInputData, setCurrentInputData } = require('./internals')
 
-module.exports = Input
-
 const propTypes = {
   id: PropTypes.string,
+  className: PropTypes.string,
   label: PropTypes.string,
   badges: PropTypes.string,
-  className: PropTypes.string,
-  infoCallback: PropTypes.func,
+  onInfoClick: PropTypes.func,
+  helpText: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   dataBag: PropTypes.object,
   dataPath: PropTypes.string,
   currValue: PropTypes.string,
   setCurrValue: PropTypes.func,
+  validate: PropTypes.func,
 }
 
 const defaultProps = {
   id: '',
+  className: '',
   label: '',
   badges: '',
-  className: '',
-  infoCallback: null,
+  onInfoClick: null,
+  helpText: '',
   dataBag: null,
   dataPath: '',
   currValue: '',
   setCurrValue: null,
+  validate: null,
+}
+
+function Label(props) {
+  const { id, label, badges, onInfoClick } = props
+
+  if (badges && !label) {
+    // eslint-disable-next-line no-console
+    console.warn("<Input/> can't show badges without label")
+  }
+  if (onInfoClick && !label) {
+    // eslint-disable-next-line no-console
+    console.warn("<Input/> can't show info-icon without label")
+  }
+  if (label && !id) {
+    // eslint-disable-next-line no-console
+    console.warn("<Input/> can't show label without ID")
+  }
+
+  if (!id || !label) {
+    return null
+  }
+
+  return (
+    <label className="form-control-label" htmlFor={id}>
+      {label}
+      <Badges content={badges} />
+      {typeof onInfoClick === 'function' ? (
+        <ClickableDiv className="glyphicon glyphicon-info-sign" onClick={onInfoClick} />
+      ) : null}
+    </label>
+  )
+}
+
+Label.propTypes = {
+  id: PropTypes.string,
+  label: PropTypes.string,
+  badges: PropTypes.string,
+  onInfoClick: PropTypes.func,
+}
+Label.defaultProps = {
+  id: '',
+  label: '',
+  badges: '',
+  onInfoClick: null,
 }
 
 /**
@@ -42,26 +86,20 @@ const defaultProps = {
  *
  * @param {object} props
  * @param {string} [props.id]
+ * @param {string} [props.className]
  * @param {string} [props.label]
  * @param {string} [props.badges]
- * @param {string} [props.className]
+ * @param {() => void} [props.onInfoClick]
+ * @param {string} [props.helpText]
  * @param {object} [props.dataBag]
  * @param {string} [props.dataPath]
  * @param {string} [props.currValue]
  * @param {(newValue: string) => void} [props.setCurrValue]
+ * @param {(currValue: string) => string|null} [props.validate]
  */
 function Input(props) {
-  const { id, label, className, dataBag, dataPath, currValue, setCurrValue, badges } = props
-
-  if (badges && !label) {
-    // eslint-disable-next-line no-console
-    console.warn("<Input/> can't show badges without label")
-  }
-  if (label && !id) {
-    // eslint-disable-next-line no-console
-    console.error("<Input/> failed - can't show label without ID")
-    return null
-  }
+  const { id, className, label, badges, onInfoClick, helpText } = props
+  const { dataBag, dataPath, currValue, setCurrValue, validate } = props
 
   const canAccessData = isObject(dataBag) && typeof dataPath === 'string' && dataPath !== ''
   const gotDirectData = typeof setCurrValue === 'function'
@@ -77,24 +115,19 @@ function Input(props) {
     onChange = event => setCurrValue(event.target.value)
   }
 
-  const labelElement =
-    id && label ? (
-      <label className="form-control-label" htmlFor={id}>
-        {label}
-        <Badges content={badges} />
-      </label>
-    ) : null
-
-  const infoIcon = typeof infoCallback === 'function' ? <InfoIcon onClick={infoCallback} /> : null
+  const errorText = typeof validate === 'function' ? validate(value) : null
 
   return (
     <div className={`Input ${className}`.trim()}>
-      {labelElement}
-      {infoIcon}
+      <Label id={id} label={label} badges={badges} onInfoClick={onInfoClick} />
+      {helpText ? <div className="help-block">{helpText}</div> : null}
       <input type="text" className="form-control" id={id} value={value} onChange={onChange} />
+      {errorText ? <div className="validation-error">{errorText}</div> : null}
     </div>
   )
 }
 
 Input.propTypes = propTypes
 Input.defaultProps = defaultProps
+
+module.exports = Input
