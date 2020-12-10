@@ -1,6 +1,12 @@
 # kth-node-react-common ![alt text](https://api.travis-ci.org/KTH/kth-node-react-common.svg?branch=main)
 
-KTH Stockholm has several applications which are based on React together with server-side rendering, e.g. some smaller parts of https://www.kth.se. This package contains several common utility functions and components used by those applications.
+KTH Stockholm has several applications which are based on React and support server-side rendering with Node.js, e.g. some smaller parts of https://www.kth.se. This package contains common utility functions and components used by those applications.
+
+# Installation
+
+```js
+npm install kth-node-react-common
+```
 
 # Package content
 

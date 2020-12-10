@@ -51,10 +51,10 @@ You can use the MobxUtils in different modes which are related to the needed sto
 
 There are two general ways to use MobX in our application:
 
-| **Server/client**                                                                                                                                                                                                           | **Client only**                                                                                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ![](https://img.shields.io/badge/SSR-grey)<br/>If you do server-side rendering (SSR) in your application you will most likely need a chance to prepare the stores on the server and send the data to the client afterwards. | ![](https://img.shields.io/badge/no%20SSR-grey)<br/>Without server-side rendering (SSR) it should be sufficient to create the stores inside the client just before using them. |
-| The stores are created on the server. The prepared store-data is included in the HTML-document which is send to the client, so that the client can use it to initialize the stores on its side.                             | The stores are created by the client, only. All initialization is done after the client-app has started, e.g. by requesting JSON-data from the server.                         |
+| **Server/client**                                                                                                                                                                                                           | **Client only**                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![](https://img.shields.io/badge/SSR-grey)<br/>If you do server-side rendering (SSR) in your application you will most likely need a chance to prepare the stores on the server and send the data to the client afterwards. | ![](https://img.shields.io/badge/no%20SSR-grey)<br/>Without server-side rendering (SSR) it might be sufficient to create the stores inside the client just before using them. |
+| The stores are created on the server. The prepared store-data is included in the HTML-document which is sent to the client, so that the client can use it to initialize the stores on its side.                             | The stores are created by the client, only. All initialization is done after the client-app has started, e.g. by requesting JSON-data from the server.                        |
 
 ## Basic workflow - server/client
 
@@ -743,7 +743,7 @@ One way is to follow the "Basic workflow - client only" in your tests, too:
 - Create a test-store with `createStore()` or `createMultiStore()`.
 - Inside every test, wrap the component with `<MobxStoreProvider/>`.
 
-> **Please note**<br/>Our component only accesses the integrated default store - that's why there is no need for `announceStore()` in our example.
+> **Please note**<br/>Our example component only accesses the integrated default store - that's why there is no need for `announceStore()` in the following code.
 
 ```js
 // Example: Icon.test.jsx
@@ -778,7 +778,7 @@ Another way is to use `activateTestEnvironment()`.
 This allows you to write simpler tests for your components, but you loose the chance to manipulate the store before it is used by the observer component:
 
 - Call `activateTestEnvironment()` in the beginning of your test-file.
-- You might still need to use `announceStore()` - in case you are not only accessing the integrated default store.
+- You might still need to use `announceStore()` - in case your components are not only accessing the integrated default store.
 
 > **Please note**<br/>Feel free to combine both approaches. If you want to change the content of the store inside your test, you still can use `createStore()` and `<MobxStoreProvider/>` in some of the tests.
 
