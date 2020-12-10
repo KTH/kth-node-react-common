@@ -1,5 +1,5 @@
 {
-  "name": "kth-node-react-common",
+  "name": "@kth/kth-node-react-common",
   "version": "1.0.0",
   "description": "Common utility functions and components for React-based node-web projects",
   "automaticPublish": "true",
