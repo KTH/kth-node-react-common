@@ -5,9 +5,9 @@
   "automaticPublish": "true",
   "keywords": [
     "React",
-    "KTH",
-    "Stockholm",
-    "node-web"
+    "KTH Stockholm",
+    "node-web template",
+    "server-side rendering"
   ],
   "author": {
     "name": "KTH",
@@ -18,7 +18,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:notify": "jest --watch --notify",
-    "test:coverage": "rm -rf ./coverage && jest --collectCoverage --detectOpenHandles"
+    "test:coverage": "rm -rf ./coverage && jest --collectCoverage --detectOpenHandles",
+    "build": "npm install && npm test"
   },
   "license": "MIT",
   "repository": {
@@ -28,10 +29,12 @@
   "homepage": "https://github.com/KTH/kth-node-react-common#readme",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.21.0",
     "markdown-it": "^12.0.3",
     "mobx": "^6.0.4",
-    "mobx-react": "^7.0.5",
+    "mobx-react": "^7.0.5"
+  },
+  "peerDependencies": {
+    "axios": "^0.21.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1"
   },
@@ -47,7 +50,10 @@
     "jest": "^26.6.3",
     "jest-extended": "^0.11.5",
     "prettier": "^2.2.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "axios": "^0.21.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1"
   },
   "eslintConfig": {
     "extends": [
