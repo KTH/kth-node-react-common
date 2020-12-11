@@ -24,7 +24,7 @@ KTH Stockholm has several applications which are based on React and support serv
   // Examples (ES6 style):
   import { Utils, Components, FormComponents, MobxUtils } from '@kth/kth-node-react-common'
 
-  const { ensureObject, formatDate } = Utils
+  const { ensureObject } = Utils
   const { Breadcrumbs, SystemMessage } = Components
   const { useDataBag, Input } = FormComponents
   const { useStore } = MobxUtils
@@ -34,7 +34,7 @@ KTH Stockholm has several applications which are based on React and support serv
   // Examples (CommonJS style):
   const { Utils, Components, FormComponents, MobxUtils } = require('@kth/kth-node-react-common')
 
-  const { ensureObject, formatDate } = Utils
+  const { ensureObject } = Utils
   const { Breadcrumbs, SystemMessage } = Components
   const { useDataBag, Input } = FormComponents
   const { useStore } = MobxUtils
@@ -44,7 +44,7 @@ KTH Stockholm has several applications which are based on React and support serv
 
   ```js
   // Examples (ES6 style):
-  import { ensureObject, formatDate } from '@kth/kth-node-react-common/utils'
+  import { ensureObject } from '@kth/kth-node-react-common/utils'
   import { Breadcrumbs, SystemMessage } from '@kth/kth-node-react-common/components'
   import { useDataBag, Input } from '@kth/kth-node-react-common/FormComponents'
   import { useStore } from '@kth/kth-node-react-common/MobxUtils'
@@ -52,7 +52,7 @@ KTH Stockholm has several applications which are based on React and support serv
 
   ```js
   // Examples (CommonJS style):
-  const { ensureObject, formatDate } = require('@kth/kth-node-react-common/utils')
+  const { ensureObject } = require('@kth/kth-node-react-common/utils')
   const { Breadcrumbs, SystemMessage } = require('@kth/kth-node-react-common/components')
   const { useDataBag, Input } = require('@kth/kth-node-react-common/FormComponents')
   const { useStore } = require('@kth/kth-node-react-common/MobxUtils')
@@ -64,7 +64,7 @@ KTH Stockholm has several applications which are based on React and support serv
 
   ```js
   // Examples (CommonJS style):
-  const { ensureObject, formatDate } = require('@kth/kth-node-react-common').Utils
+  const { ensureObject } = require('@kth/kth-node-react-common').Utils
   const { Breadcrumbs, SystemMessage } = require('@kth/kth-node-react-common').Components
   const { useDataBag, Input } = require('@kth/kth-node-react-common').FormComponents
   const { useStore } = require('@kth/kth-node-react-common').MobxUtils

@@ -1,9 +1,6 @@
 // @ts-check
 
 const Animation = require('./Animation')
-// const FadeInAndOut = require('./FadeInAndOut')
-const formatDate = require('./formatDate')
-// const getStringSortCallback = require('../../app/utils/getStringSortCallback')
 const {
   isObject,
   isNoObject,
@@ -25,9 +22,6 @@ module.exports = {
   findInObject,
   setInObject,
   Animation,
-  // FadeInAndOut,
-  formatDate,
-  // getStringSortCallback,
   prepareAsyncSafeState,
   getServerApiUri,
   queryServerApiAsync,
