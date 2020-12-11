@@ -4,7 +4,7 @@ const React = require('react')
 
 const { render } = require('@testing-library/react')
 
-const { ConsoleUtils } = require('../test-utils')
+const { ConsoleUtils } = require('../testUtils')
 
 const LoadDataAsync = require('./LoadDataAsync')
 
