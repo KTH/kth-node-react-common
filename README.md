@@ -22,21 +22,21 @@ KTH Stockholm has several applications which are based on React and support serv
 
   ```js
   // Examples (ES6 style):
-  import { ReactUtils, ReactHelpers, FormHelpers, MobxUtils } from '@kth/kth-node-react-common'
+  import { Utils, Components, FormComponents, MobxUtils } from '@kth/kth-node-react-common'
 
-  const { ensureObject, formatDate } = ReactUtils
-  const { Breadcrumbs, SystemMessage } = ReactHelpers
-  const { useDataBag, Input } = FormHelpers
+  const { ensureObject, formatDate } = Utils
+  const { Breadcrumbs, SystemMessage } = Components
+  const { useDataBag, Input } = FormComponents
   const { useStore } = MobxUtils
   ```
 
   ```js
   // Examples (CommonJS style):
-  const { ReactUtils, ReactHelpers, FormHelpers, MobxUtils } = require('@kth/kth-node-react-common')
+  const { Utils, Components, FormComponents, MobxUtils } = require('@kth/kth-node-react-common')
 
-  const { ensureObject, formatDate } = ReactUtils
-  const { Breadcrumbs, SystemMessage } = ReactHelpers
-  const { useDataBag, Input } = FormHelpers
+  const { ensureObject, formatDate } = Utils
+  const { Breadcrumbs, SystemMessage } = Components
+  const { useDataBag, Input } = FormComponents
   const { useStore } = MobxUtils
   ```
 
@@ -45,16 +45,16 @@ KTH Stockholm has several applications which are based on React and support serv
   ```js
   // Examples (ES6 style):
   import { ensureObject, formatDate } from '@kth/kth-node-react-common/utils'
-  import { Breadcrumbs, SystemMessage } from '@kth/kth-node-react-common/helpers'
-  import { useDataBag, Input } from '@kth/kth-node-react-common/FormHelpers'
+  import { Breadcrumbs, SystemMessage } from '@kth/kth-node-react-common/components'
+  import { useDataBag, Input } from '@kth/kth-node-react-common/FormComponents'
   import { useStore } from '@kth/kth-node-react-common/MobxUtils'
   ```
 
   ```js
   // Examples (CommonJS style):
   const { ensureObject, formatDate } = require('@kth/kth-node-react-common/utils')
-  const { Breadcrumbs, SystemMessage } = require('@kth/kth-node-react-common/helpers')
-  const { useDataBag, Input } = require('@kth/kth-node-react-common/FormHelpers')
+  const { Breadcrumbs, SystemMessage } = require('@kth/kth-node-react-common/components')
+  const { useDataBag, Input } = require('@kth/kth-node-react-common/FormComponents')
   const { useStore } = require('@kth/kth-node-react-common/MobxUtils')
   ```
 
@@ -64,9 +64,9 @@ KTH Stockholm has several applications which are based on React and support serv
 
   ```js
   // Examples (CommonJS style):
-  const { ensureObject, formatDate } = require('@kth/kth-node-react-common').ReactUtils
-  const { Breadcrumbs, SystemMessage } = require('@kth/kth-node-react-common').ReactHelpers
-  const { useDataBag, Input } = require('@kth/kth-node-react-common').FormHelpers
+  const { ensureObject, formatDate } = require('@kth/kth-node-react-common').Utils
+  const { Breadcrumbs, SystemMessage } = require('@kth/kth-node-react-common').Components
+  const { useDataBag, Input } = require('@kth/kth-node-react-common').FormComponents
   const { useStore } = require('@kth/kth-node-react-common').MobxUtils
   ```
 

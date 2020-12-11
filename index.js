@@ -1,13 +1,13 @@
 // @ts-check
 
-const ReactUtils = require('./utils')
-const ReactHelpers = require('./helpers')
-const FormHelpers = require('./FormHelpers')
+const Utils = require('./utils')
+const Components = require('./components')
+const FormComponents = require('./FormComponents')
 const MobxUtils = require('./MobxUtils')
 
 module.exports = {
-  ReactUtils,
-  ReactHelpers,
-  FormHelpers,
+  Utils,
+  Components,
+  FormComponents,
   MobxUtils,
 }
