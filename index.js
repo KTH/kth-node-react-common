@@ -1,11 +1,13 @@
 // @ts-check
 
+const ReactUtils = require('./utils')
+const ReactHelpers = require('./helpers')
 const FormHelpers = require('./FormHelpers')
-const Helpers = require('./Helpers')
 const MobxUtils = require('./MobxUtils')
 
 module.exports = {
+  ReactUtils,
+  ReactHelpers,
   FormHelpers,
-  Helpers,
   MobxUtils,
 }
