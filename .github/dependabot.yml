@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+  - dependencies
+  - dependabot
+  ignore:
+  - dependency-name: "@kth/eslint-config-kth"
+    versions:
+    - 1.0.8
+  - dependency-name: mobx
+    versions:
+    - 6.1.2
